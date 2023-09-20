@@ -8,7 +8,7 @@ class FileStorage:
     __file_path = 'file.json'
     __objects = {}
 
-    def all(self):
+    def all(self, cls=None):
         """Returns a dictionary of models currently in storage"""
         return FileStorage.__objects
 
@@ -25,13 +25,13 @@ class FileStorage:
                 temp[key] = val.to_dict()
             json.dump(temp, f)
 
-    
     def delete(self, obj=None):
         """Delete a given object from __objects, if it exists."""
         try:
             del self.__objects["{}.{}".format(type(obj).__name__, obj.id)]
         except (AttributeError, KeyError):
             pass
+
 
     def reload(self):
         """Loads storage dictionary from file"""
@@ -42,7 +42,7 @@ class FileStorage:
         from models.city import City
         from models.amenity import Amenity
         from models.review import Review
-
+    
         classes = {
                     'BaseModel': BaseModel, 'User': User, 'Place': Place,
                     'State': State, 'City': City, 'Amenity': Amenity,
